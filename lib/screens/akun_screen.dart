@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'welcome_screen.dart'; // Import WelcomeScreen
 
 class AkunScreen extends StatelessWidget {
   const AkunScreen({super.key});
@@ -16,7 +17,7 @@ class AkunScreen extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
-              // Aksi logout
+              _logout(context);
             },
             child: const Text(
               'Logout',
@@ -55,6 +56,17 @@ class AkunScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _logout(BuildContext context) {
+    // Aksi logout (hapus session, token, dll jika ada)
+    
+    // Arahkan ke WelcomeScreen dan hapus history agar tidak bisa kembali dengan tombol back
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+      (Route<dynamic> route) => false, // Hapus semua history navigasi
     );
   }
 
