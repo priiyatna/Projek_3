@@ -42,12 +42,20 @@ class CheckoutScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = produkDipesan[index];
                 return ListTile(
-                  leading: Image.asset(
+                   leading: Image.asset(
                     item['gambar'] ?? 'assets/default.jpg',
                     width: 50,
                     errorBuilder: (context, error, stackTrace) {
                       return Icon(Icons.image_not_supported, size: 50, color: Colors.grey);
                     },
+                  ),
+                  title: Text(
+                    item['nama'], // Nama produk
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(
+                    'Rp ${item['harga'].toString()}', // Harga produk
+                    style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
                   ),
                 );
               },
@@ -71,16 +79,21 @@ class CheckoutScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  ),
-                  onPressed: () {
-                    // Implementasi proses pemesanan
-                  },
-                  child: const Text('Buat Pesanan', style: TextStyle(color: Colors.white)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end, // Posisi tombol di pojok kanan
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                      onPressed: () {
+                        // Implementasi proses pemesanan
+                      },
+                      child: const Text('Buat Pesanan', style: TextStyle(color: Colors.white)),
+                    ),
+                  ],
                 ),
               ],
             ),
