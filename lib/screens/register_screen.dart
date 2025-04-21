@@ -1,146 +1,200 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final addressController = TextEditingController();
+  final phoneController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+
+  final auth = FirebaseAuth.instance;
+
+  void register() async {
+    String name = nameController.text.trim();
+    String email = emailController.text.trim();
+    String address = addressController.text.trim();
+    String phone = phoneController.text.trim();
+    String password = passwordController.text;
+    String confirmPassword = confirmPasswordController.text;
+
+    if (name.isEmpty || email.isEmpty || address.isEmpty || phone.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      showErrorDialog('Semua field wajib diisi.');
+      return;
+    }
+
+    final nameRegex = RegExp(r'^[a-zA-Z\s]{3,}$');
+    if (!nameRegex.hasMatch(name)) {
+      showErrorDialog('Nama harus minimal 3 karakter dan hanya boleh huruf.');
+      return;
+    }
+
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(email)) {
+      showErrorDialog('Format email tidak valid.');
+      return;
+    }
+
+    final phoneRegex = RegExp(r'^[0-9]{10,}$');
+    if (!phoneRegex.hasMatch(phone)) {
+      showErrorDialog('No HP harus berupa angka dan minimal 10 digit.');
+      return;
+    }
+
+    if (password.length < 6) {
+      showErrorDialog('Password minimal 6 karakter.');
+      return;
+    }
+
+    if (password != confirmPassword) {
+      showErrorDialog('Password dan Konfirmasi tidak cocok.');
+      return;
+    }
+
+    try {
+      await auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Registrasi Berhasil'),
+          content: const Text('Akun berhasil dibuat. Silakan login.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // tutup dialog
+                Navigator.pop(context); // kembali ke login screen
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      showErrorDialog('Terjadi kesalahan: $e');
+    }
+  }
+
+  void showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Registrasi Gagal'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD9ECFF), // Warna background biru muda
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Tombol Back
-            IconButton(
-              icon: const Icon(Icons.arrow_back, size: 28),
-              onPressed: () {
-                Navigator.pop(context); // Kembali ke halaman sebelumnya
-              },
-            ),
-
-            const SizedBox(height: 20),
-
-            // Judul Register
-            const Text(
-              "Daftar",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 10),
-
-            // Deskripsi
-            const Text(
-              "Masukkan Nama, Email, Password, dan Confirm Password untuk mendaftar di Toko Deryko.",
-              style: TextStyle(fontSize: 16),
-            ),
-
-            const SizedBox(height: 30),
-
-            // Form Register
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 5,
-                    spreadRadius: 2,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Nama"),
-                  const SizedBox(height: 5),
-                  TextField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.blue[50],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 15),
-
-                  const Text("Email Address"),
-                  const SizedBox(height: 5),
-                  TextField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.blue[50],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 15),
-
-                  const Text("Password"),
-                  const SizedBox(height: 5),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.blue[50],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 15),
-
-                  const Text("Confirm Password"),
-                  const SizedBox(height: 5),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.blue[50],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Tombol Register
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {}, // Tambahkan fungsi register
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: const Text(
-                        "Register",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: BackButton(color: Colors.black),
+      ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFB2D5E9), Color(0xFFD5ECF9)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
         ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(top: 100, bottom: 40),
+          child: Column(
+            children: [
+              const Text(
+                'Daftar',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Masukan Nama, Email Address, Password dan Confirm Password\nuntuk masuk ke aplikasi Toko Deryko',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14, color: Colors.black87),
+              ),
+              const SizedBox(height: 30),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Card(
+                  elevation: 6,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Register',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 16),
+                        buildField('Nama', nameController),
+                        const SizedBox(height: 12),
+                        buildField('Email Address', emailController),
+                        const SizedBox(height: 12),
+                        buildField('Alamat', addressController),
+                        const SizedBox(height: 12),
+                        buildField('No Hp', phoneController, keyboardType: TextInputType.phone),
+                        const SizedBox(height: 12),
+                        buildField('Password', passwordController, obscure: true),
+                        const SizedBox(height: 12),
+                        buildField('Confirm Password', confirmPasswordController, obscure: true),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: register,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue[600],
+                            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                          ),
+                          child: const Text('Register'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildField(String label, TextEditingController controller,
+      {bool obscure = false, TextInputType keyboardType = TextInputType.text}) {
+    return TextField(
+      controller: controller,
+      obscureText: obscure,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        labelText: label,
+        filled: true,
+        fillColor: Colors.blue[50],
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
   }
