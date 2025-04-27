@@ -90,7 +90,11 @@ class WelcomeScreen extends StatelessWidget {
                       backgroundColor: Colors.blue[700],
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
-                    child: const Text('Daftar'),
+                    child: const Text('Daftar',
+                     style: TextStyle(
+                      color: Colors.white,
+                     ),
+                    ),
                   ),
                 ),
               ],
