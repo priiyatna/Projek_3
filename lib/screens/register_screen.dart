@@ -116,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFB2D5E9), Color(0xFFD5ECF9)],
+            colors: [Color.fromARGB(255, 151, 212, 236), Color(0xFFD5ECF9)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -131,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(height: 8),
               const Text(
-                'Masukan Nama, Email Address, Password dan Confirm Password\nuntuk masuk ke aplikasi Toko Deryko',
+                'Buat Akun untuk masuk ke aplikasi Toko Deryko',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14, color: Colors.black87),
               ),
@@ -147,14 +147,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
                     child: Column(
                       children: [
-                        const Text(
-                          'Register',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 16),
                         buildField('Nama', nameController),
                         const SizedBox(height: 12),
-                        buildField('Email Address', emailController),
+                        buildField('Email', emailController),
                         const SizedBox(height: 12),
                         buildField('Alamat', addressController),
                         const SizedBox(height: 12),
@@ -162,15 +157,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         const SizedBox(height: 12),
                         buildField('Password', passwordController, obscure: true),
                         const SizedBox(height: 12),
-                        buildField('Confirm Password', confirmPasswordController, obscure: true),
+                        buildField('Konfirmasi Password', confirmPasswordController, obscure: true),
                         const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: register,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue[600],
-                            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                            foregroundColor: Colors.white, // Warna teks
+                            elevation: 8, // Tambah bayangan
+                            shadowColor: Colors.blueAccent, // Warna bayangan
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12), // Biar agak rounded
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                            textStyle: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ).copyWith(
+                            elevation: MaterialStateProperty.resolveWith<double>((states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return 2; // Kecilkan bayangan saat tombol ditekan
+                              }
+                              return 8; // Default bayangan
+                            }),
                           ),
-                          child: const Text('Register'),
+                          child: const Text('Daftar'),
                         ),
                       ],
                     ),
