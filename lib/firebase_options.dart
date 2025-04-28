@@ -41,48 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDLi6kIH6WFcaw2tIrdz6qreptqQZwGzpk',
-    appId: '1:482096829285:web:671dde0bb324c0cd83878c',
-    messagingSenderId: '482096829285',
-    projectId: 'tokoderyko',
-    authDomain: 'tokoderyko.firebaseapp.com',
-    storageBucket: 'tokoderyko.firebasestorage.app',
-    measurementId: 'G-NTHLCHXLJW',
+    apiKey: 'AIzaSyD7LjCODydxLzdWWTmaAk_sB1GP8i42FbI',
+    appId: '1:107704816232:web:41baba5f86ad984c9e21dd',
+    messagingSenderId: '107704816232',
+    projectId: 'tokoderyko-7dffe',
+    authDomain: 'tokoderyko-7dffe.firebaseapp.com',
+    storageBucket: 'tokoderyko-7dffe.firebasestorage.app',
+    measurementId: 'G-ZJ5TSF4NZ3',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC3u5po0gF1mHvaCujvk1TeSLe2LGOw8O4',
-    appId: '1:482096829285:android:eb904263f208058683878c',
-    messagingSenderId: '482096829285',
-    projectId: 'tokoderyko',
-    storageBucket: 'tokoderyko.firebasestorage.app',
+    apiKey: 'AIzaSyB26harJYjai6rp521XcxgZETuF2BgAEZM',
+    appId: '1:107704816232:android:7650e84482bf7f4a9e21dd',
+    messagingSenderId: '107704816232',
+    projectId: 'tokoderyko-7dffe',
+    storageBucket: 'tokoderyko-7dffe.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD29g8FdiTabH0p1fICYfib-u3x7uTu92c',
-    appId: '1:482096829285:ios:ca5dc501ac01efb383878c',
-    messagingSenderId: '482096829285',
-    projectId: 'tokoderyko',
-    storageBucket: 'tokoderyko.firebasestorage.app',
+    apiKey: 'AIzaSyAcQhswKMvQ6u3n4KV9lpVazwZe4qQMEuI',
+    appId: '1:107704816232:ios:c41d911ec5f335fd9e21dd',
+    messagingSenderId: '107704816232',
+    projectId: 'tokoderyko-7dffe',
+    storageBucket: 'tokoderyko-7dffe.firebasestorage.app',
     iosBundleId: 'com.example.projek3',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyD29g8FdiTabH0p1fICYfib-u3x7uTu92c',
-    appId: '1:482096829285:ios:ca5dc501ac01efb383878c',
-    messagingSenderId: '482096829285',
-    projectId: 'tokoderyko',
-    storageBucket: 'tokoderyko.firebasestorage.app',
+    apiKey: 'AIzaSyAcQhswKMvQ6u3n4KV9lpVazwZe4qQMEuI',
+    appId: '1:107704816232:ios:c41d911ec5f335fd9e21dd',
+    messagingSenderId: '107704816232',
+    projectId: 'tokoderyko-7dffe',
+    storageBucket: 'tokoderyko-7dffe.firebasestorage.app',
     iosBundleId: 'com.example.projek3',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDLi6kIH6WFcaw2tIrdz6qreptqQZwGzpk',
-    appId: '1:482096829285:web:48e45ae15418266b83878c',
-    messagingSenderId: '482096829285',
-    projectId: 'tokoderyko',
-    authDomain: 'tokoderyko.firebaseapp.com',
-    storageBucket: 'tokoderyko.firebasestorage.app',
-    measurementId: 'G-TN5P2KCP2G',
+    apiKey: 'AIzaSyD7LjCODydxLzdWWTmaAk_sB1GP8i42FbI',
+    appId: '1:107704816232:web:40c388bfbc6814db9e21dd',
+    messagingSenderId: '107704816232',
+    projectId: 'tokoderyko-7dffe',
+    authDomain: 'tokoderyko-7dffe.firebaseapp.com',
+    storageBucket: 'tokoderyko-7dffe.firebasestorage.app',
+    measurementId: 'G-02S8PZBV7M',
   );
+
 }
