@@ -101,8 +101,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-      
-      
         const SizedBox(height: 20),
         Expanded(
           child: Padding(
@@ -113,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
-                childAspectRatio: 3 / 3.5,
+                childAspectRatio: 3 / 4,
               ),
               itemBuilder: (context, index) {
                 final category = categories[index];
@@ -139,12 +137,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(category.image, width: 80, height: 80, fit: BoxFit.cover),
-                        const SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+                            child: Image.asset(
+                              category.image,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          alignment: Alignment.center,
                           child: Text(
                             category.name,
                             textAlign: TextAlign.center,
