@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +14,25 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
   final auth = FirebaseAuth.instance;
   bool showPassword = false;
+  bool isRememberMeChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRememberMeStatus();
+  }
+
+  void _loadRememberMeStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isRememberMeChecked = prefs.getBool('remember_me') ?? false;
+    });
+  }
+
+  void _saveRememberMeStatus(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('remember_me', value);
+  }
 
   void login() async {
     try {
@@ -20,6 +40,11 @@ class _LoginScreenState extends State<LoginScreen> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+
+      if (isRememberMeChecked) {
+        // Simpan email dan password jika diperlukan
+      }
+
       Navigator.pushReplacementNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'Terjadi kesalahan. Silakan coba lagi.';
@@ -75,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/login.png'), // Pastikan ini sudah di pubspec.yaml
+            image: AssetImage('assets/login.png'), // Tambahkan ke pubspec.yaml
             fit: BoxFit.cover,
           ),
         ),
@@ -90,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 8),
               const Text(
-                'Masukan email address dan password untuk masuk ke aplikasi Toko Deryko',
+                'Masukkan email dan kata sandi untuk masuk ke aplikasi Toko Deryko',
                 style: TextStyle(fontSize: 14, color: Colors.black87),
               ),
               const SizedBox(height: 40),
@@ -104,7 +129,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-
                       TextField(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -140,8 +164,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       Row(
                         children: [
                           Checkbox(
-                            value: false,
-                            onChanged: (value) {},
+                            value: isRememberMeChecked,
+                            onChanged: (value) {
+                              setState(() {
+                                isRememberMeChecked = value ?? false;
+                                _saveRememberMeStatus(isRememberMeChecked);
+                              });
+                            },
                           ),
                           const Text(
                             'Remember Me',
@@ -156,10 +185,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           backgroundColor: Colors.lightBlue,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                         ),
-                       child: const Text(
-                        'Login',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       const SizedBox(height: 10),
                       TextButton(
@@ -168,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: const Text(
                           'Lupa Kata Sandi Anda?',
-                          style: TextStyle(color: Colors.blue),
+                          style: TextStyle(color: Color.fromARGB(255, 163, 214, 255)),
                         ),
                       ),
                       const SizedBox(height: 10),

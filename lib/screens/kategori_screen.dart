@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'cart_provider.dart';
+import 'detail_produk_screen.dart';
+import 'keranjang_screen.dart';
 
 class KategoriScreen extends StatelessWidget {
   final String kategori;
 
   const KategoriScreen({super.key, required this.kategori});
 
-  // List produk per kategori (sementara hardcoded untuk kategori SEMBAKO)
   List<Map<String, String>> getProdukByKategori(String kategori) {
     if (kategori == 'SEMBAKO') {
       return [
-        {'nama': 'MINYAK GORENG CURAH 1 kg', 'gambar': 'assets/minyak.png', 'harga': 'Rp 20.000'},
-        {'nama': 'GULA PASIR CURAH 1 kg', 'gambar': 'assets/gula.png', 'harga': 'Rp 18.500'},
-        {'nama': 'TEPUNG SEGITIGA BIRU 1 KG', 'gambar': 'assets/segitiga.png', 'harga': 'Rp 12.000'},
-        {'nama': 'TEPUNG MAIZENAKU 100 gr', 'gambar': 'assets/maizena.png', 'harga': 'Rp 5.000'},
-        {'nama': 'GULA MERAH 1 kg', 'gambar': 'assets/gulamerah.png', 'harga': 'Rp 15.000'},
+        {
+          'nama': 'MINYAK GORENG CURAH 1 kg',
+          'gambar': 'assets/minyak.png',
+          'harga': 'Rp 20.000'
+        },
+        {
+          'nama': 'GULA PASIR CURAH 1 kg',
+          'gambar': 'assets/gula.png',
+          'harga': 'Rp 18.500'
+        },
+        // Tambahkan produk lainnya...
       ];
     } else {
       return [
-        {'nama': 'Produk Kosong', 'gambar': 'assets/placeholder.png', 'harga': 'Rp -'},
+        {
+          'nama': 'Produk Kosong',
+          'gambar': 'assets/placeholder.png',
+          'harga': 'Rp -'
+        },
       ];
     }
   }
@@ -25,6 +38,7 @@ class KategoriScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final produkList = getProdukByKategori(kategori);
+    final cartProvider = Provider.of<CartProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -34,29 +48,29 @@ class KategoriScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartScreen()),
+              );
+            },
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             // Search Bar
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'search...',
-                      fillColor: Colors.white,
-                      filled: true,
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            const TextField(
+              decoration: InputDecoration(
+                hintText: 'Search...',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(),
+              ),
             ),
             const SizedBox(height: 20),
             // Grid Produk
@@ -64,56 +78,58 @@ class KategoriScreen extends StatelessWidget {
               child: GridView.builder(
                 itemCount: produkList.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                  crossAxisCount: 2,
                   mainAxisSpacing: 12,
                   crossAxisSpacing: 12,
-                  childAspectRatio: 3 / 5,
+                  childAspectRatio: 3 / 4,
                 ),
                 itemBuilder: (context, index) {
                   final produk = produkList[index];
                   return Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     elevation: 2,
                     child: Column(
                       children: [
                         Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset(
-                              produk['gambar']!,
-                              fit: BoxFit.contain,
-                            ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailProdukScreen(
+                                    namaProduk: produk['nama']!,
+                                    gambarProduk: produk['gambar']!,
+                                    hargaProduk: produk['harga']!,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Image.asset(produk['gambar']!),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                          child: Text(
-                            produk['nama']!,
-                            style: const TextStyle(fontSize: 12),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          decoration: BoxDecoration(
+                        Text(produk['nama']!),
+                        Text(
+                          produk['harga']!,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
                             color: Colors.blue,
-                            borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(8),
-                                bottomRight: Radius.circular(8)),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.shopping_cart, color: Colors.white, size: 16),
-                              const SizedBox(width: 4),
-                              Text(
-                                produk['harga']!,
-                                style: const TextStyle(color: Colors.white),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.add_shopping_cart),
+                          onPressed: () {
+                            cartProvider.addToCart(
+                              CartItem(
+                                nama: produk['nama']!,
+                                gambar: produk['gambar']!,
+                                harga: produk['harga']!,
                               ),
-                            ],
-                          ),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Produk ditambahkan ke keranjang'),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),

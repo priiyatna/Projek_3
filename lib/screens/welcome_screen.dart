@@ -76,130 +76,62 @@ class WelcomeScreen extends StatelessWidget {
             ),
           ),
 
-
           const SizedBox(height: 40),
 
           // Tombol Masuk & Daftar
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Tombol Masuk
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: const Color(0xFF1976D2), // teks biru
-                  backgroundColor: Colors.white, // background putih
-                  side: const BorderSide(color: Color(0xFF1976D2)), // border biru
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text(
-                  'Masuk',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              // Tombol Daftar
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/register');
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1976D2), // background biru
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 4,
-                ),
-                child: const Text(
-                  'Daftar',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white, // teks putih
-                  ),
-                ),
-              ),
-            ],
-          ),
-<<<<<<< HEAD
-=======
-
-          const SizedBox(height: 60), // Jarak setelah lingkaran
-
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                Text(
-                  'Selamat Datang di Toko Deryko',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.black,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 12),
-                Text(
-                  'Toko Deryko  menghadirkan  aplikasi untuk memudahkan para konsumen dalam memenuhi kebutuhan sehari hari.',
-                  style: TextStyle(fontSize: 14, color: Colors.black),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-
-          const Spacer(),
-
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/login');
-                    },
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Colors.blue),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                // Tombol Masuk
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: const Color(0xFF1976D2), // teks biru
+                    backgroundColor: Colors.white, // background putih
+                    side: const BorderSide(color: Color(0xFF1976D2)), // border biru
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Text(
-                      'Masuk',
-                      style: TextStyle(color: Colors.blue),
+                  ),
+                  child: const Text(
+                    'Masuk',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 const SizedBox(width: 16),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/register');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue[700],
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                // Tombol Daftar
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/register');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1976D2), // background biru
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Text('Daftar',
-                     style: TextStyle(
-                      color: Colors.white,
-                     ),
+                    elevation: 4,
+                  ),
+                  child: const Text(
+                    'Daftar',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white, // teks putih
                     ),
                   ),
                 ),
               ],
             ),
           ),
->>>>>>> ac39603a80292c61013a9c588a796a059484170a
         ],
       ),
     );

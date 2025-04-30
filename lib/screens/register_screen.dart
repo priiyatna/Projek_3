@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -60,10 +62,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     try {
-      await auth.createUserWithEmailAndPassword(
+      // Daftar akun ke Firebase Authentication
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      // Simpan data user tambahan ke Cloud Firestore
+      await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+        'name': name,
+        'email': email,
+        'address': address,
+        'phone': phone,
+        'createdAt': FieldValue.serverTimestamp(), // Optional: Tanggal pendaftaran
+      });
 
       showDialog(
         context: context,
@@ -109,31 +121,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: BackButton(color: Colors.black),
+        leading: const BackButton(color: Colors.black),
       ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color.fromARGB(255, 151, 212, 236), Color(0xFFD5ECF9)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+          image: DecorationImage(
+            image: AssetImage('assets/register.png'), // Ganti sesuai asset kamu
+            fit: BoxFit.cover,
           ),
         ),
         child: SingleChildScrollView(
           padding: const EdgeInsets.only(top: 100, bottom: 40),
           child: Column(
             children: [
-              const Text(
+              Text(
                 'Daftar',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: GoogleFonts.poppins(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'Buat Akun untuk masuk ke aplikasi Toko Deryko',
+              Text(
+                'Masukkan Nama, Email, Alamat, No HP, Password dan Konfirmasi untuk membuat akun.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: Colors.black87),
+                style: GoogleFonts.poppins(fontSize: 14, color: Colors.black87),
               ),
               const SizedBox(height: 30),
               Padding(
@@ -163,23 +177,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           onPressed: register,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue[600],
-                            foregroundColor: Colors.white, // Warna teks
-                            elevation: 8, // Tambah bayangan
-                            shadowColor: Colors.blueAccent, // Warna bayangan
+                            foregroundColor: Colors.white,
+                            elevation: 8,
+                            shadowColor: Colors.blueAccent,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12), // Biar agak rounded
+                              borderRadius: BorderRadius.circular(12),
                             ),
                             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
-                            textStyle: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                           ).copyWith(
                             elevation: MaterialStateProperty.resolveWith<double>((states) {
                               if (states.contains(MaterialState.pressed)) {
-                                return 2; // Kecilkan bayangan saat tombol ditekan
+                                return 2;
                               }
-                              return 8; // Default bayangan
+                              return 8;
                             }),
                           ),
                           child: const Text('Daftar'),
@@ -206,8 +217,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         labelText: label,
         filled: true,
         fillColor: Colors.blue[50],
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
       ),
+      style: GoogleFonts.poppins(),
     );
   }
 }
