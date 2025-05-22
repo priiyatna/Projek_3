@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "107704816232",
+    "project_id": "tokoderyko-7dffe",
+    "storage_bucket": "tokoderyko-7dffe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107704816232:android:7650e84482bf7f4a9e21dd",
+        "android_client_info": {
+          "package_name": "com.example.projek_3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB26harJYjai6rp521XcxgZETuF2BgAEZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
